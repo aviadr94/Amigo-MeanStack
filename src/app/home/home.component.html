@@ -1,0 +1,74 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://use.fontawesome.com/releases/v5.0.4/css/all.css" rel="stylesheet">
+
+<html>
+<body>
+
+<p *ngIf="readingRating(posts)">Reading Data For Failed</p>
+<p *ngIf="!setCitiesArray(cities)">Reading City Failed</p>
+
+<!-- Video -->
+<p class="centerVideo">
+<video width="100%" id="myVideo" controls autoplay>
+    <source src="assets/videos/newyork.mp4" type="video/mp4">
+</video>
+</p>
+
+<!-- space -->
+<br><br><br><br>
+
+<!-- Pie Chart Of Rating -->
+<h3>Pie Chart of Rating Posts</h3>
+<p style="display: block">
+  <canvas baseChart
+          [data]="pieChartDataRating"
+          [labels]="pieChartLabelsRating"
+          [chartType]="pieChartType">
+        </canvas>
+</p>
+
+<!-- space -->
+<br><br><br><br>
+
+<!-- Pie Chart Of Count By City -->
+<h3>Pie Chart of Count Posts in Center of Israel</h3>
+<p style="display: block">
+  <canvas baseChart
+          [data]="pieChartDataCity"
+          [labels]="pieChartLabelsCity"
+          [chartType]="pieChartTypeCity">
+        </canvas>
+</p>
+
+<!-- space -->
+<br><br><br><br>
+
+<!-- Weather -->
+<div id="divWeatherMain">
+  <br>
+  <div *ngIf="WeatherData.isDay" class="weatherWidgetRow">
+      <i class="fas fa-3x fa-sun sun"></i>
+  </div>
+  <div *ngIf="!WeatherData.isDay" class="weatherWidgetRow">
+      <i class="fas fa-3x fa-moon moon"></i>
+  </div>
+  <div class="weatherWidgetRow cloudDiv">
+      <i class="fas fa-cloud fa-3x cloud"></i>
+  </div>
+  <div class="weatherWidgetRow" style="font-size: 32px;margin-top: 5px;">{{WeatherData.temp_celcius}}°</div>
+  <div class="weatherWidgetRow" style="font-size: 12px;">{{WeatherData.temp_min}}° / {{WeatherData.temp_max}}°</div>
+  <div class="weatherWidgetRow" style="font-size: 12px;">Feels Like: {{WeatherData.temp_feels_like}}°</div>
+  <div class="weatherWidgetRow" style="font-size: 25px;margin-top: 10px;">{{WeatherData.name}}</div>
+  <!-- <div class="weatherWidgetRow" style="font-size: 12px;">Humidity: {{WeatherData.main.humidity}}%</div> -->
+</div>
+
+<!-- Facebook -->
+<span class="centerFacebook">
+  <h1 class="facebook">Like our page on Facebook <i class="fab fa-facebook" aria-hidden="false"></i> </h1>
+  <p style="align-items: center;">
+    <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Famigoamericaa&tabs=timeline&width=500&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=false&appId" width="500" height="500" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>  </p>
+</span>
+
+</body>
+
+</html>

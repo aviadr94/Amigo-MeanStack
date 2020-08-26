@@ -1,0 +1,118 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<div *ngIf="userIsAuthenticated">
+    <div *ngIf="checkPostCity(posts)">
+      <h3 class="stat">Hi , Maybe this post could interest you? </h3>
+      <table style="border: 1px solid black;">
+        <tr>
+          <td>
+            <div>
+              <h1 style="font-weight: bold; font-family: cursive;">{{ post_temp_title }}</h1>
+              <span style="font-family: cursive;">{{ post_temp_city }}</span>
+              <p style="font-family: cursive;">{{ post_temp_content }}</p>
+            </div>
+          </td>
+      </tr>
+      </table>
+    </div>
+    <br>
+<br>
+<br>
+<br>
+</div>
+
+
+<mat-grid-list cols="3" rowHeight="10:1">
+  <mat-grid-tile>
+<input matInput #search (keyup)="onTextChangedTitle()" type="text" placeholder="Search By Title" id="searchtitle"/>
+</mat-grid-tile>
+  <mat-grid-tile>
+<input matInput #searchCity (keyup)="onTextChangedCity()" type="text" placeholder="Search By City" id="searchcity"/>
+  </mat-grid-tile>
+  <mat-grid-tile>
+<input matInput #searchRate (keyup)="onTextChangedRate()" type="number" placeholder="Search By Rating" id="searchrate" min="1" max="5" />
+  </mat-grid-tile>
+
+  <mat-grid-tile>
+    <button class="buttongray" onclick="document.getElementById('searchtitle').value = '' ">Clear</button>
+  </mat-grid-tile>
+      <mat-grid-tile>
+        <button class="buttongray" onclick="document.getElementById('searchcity').value = ''">Clear</button>
+    </mat-grid-tile>
+    <mat-grid-tile>
+      <button class="buttongray" onclick="document.getElementById('searchrate').value = ''">Clear</button>
+  </mat-grid-tile>
+
+</mat-grid-list>
+
+<br>
+<br>
+
+
+<mat-accordion multi="true" *ngIf="posts.length > 0 && !isLoading">
+  <div class="container-fluid">
+  <table class="table table-bordered">
+    <ng-container *ngFor="let post of posts | postFilter: title | cityFilter: city | rateFilter: rating">
+    <tr>
+      <td>
+        <div>
+          <h1 style="font-weight: bold; font-family: cursive;">{{ post.title }}</h1>
+          <span style="font-family: cursive;">{{ post.city }}</span>
+          <p *ngIf="post.rating == '1-Very Bad'">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+          </p>
+          <p *ngIf="post.rating == '2-Bad'">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+          </p>
+          <p *ngIf="post.rating == '3-Nice'">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+            <span class="fa fa-star"></span>
+          </p>
+          <p *ngIf="post.rating == '4-Very Good'">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star"></span>
+          </p>
+          <p *ngIf="post.rating == '5-Excellent'">
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+            <span class="fa fa-star checked"></span>
+          </p>
+          <p style="font-family: cursive;">{{ post.content }}</p>
+        </div>
+
+        <div class="post-image">
+          <img [src]="post.imagePath" [alt]="post.title">
+        </div>
+      </td>
+  </tr>
+  <tr *ngIf="userIsAuthenticated && userId === post.creator">
+    <td>
+      <button mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</button>
+      <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+    </td>
+  </tr>
+</ng-container>
+  </table>
+  </div>
+</mat-accordion>
+<mat-paginator [length]="totalPosts" [pageSize]="postsPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)"
+  *ngIf="posts.length > 0"></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="posts.length <= 0 && !isLoading">No posts added yet!</p>

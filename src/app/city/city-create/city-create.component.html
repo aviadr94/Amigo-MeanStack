@@ -1,0 +1,22 @@
+<mat-card>
+  <mat-spinner *ngIf="isLoading"></mat-spinner>
+  <form [formGroup]="form" (submit)="onSaveCity()" *ngIf="!isLoading">
+    <mat-form-field>
+      <input matInput type="text" formControlName="city" placeholder="Place City">
+      <mat-error *ngIf="form.get('city').invalid">Please enter a city.</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput type="text" formControlName="lat" placeholder="Place Latitude">
+      <mat-error *ngIf="form.get('lat').invalid">Please enter latitiude.</mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field>
+      <input matInput type="text" formControlName="lng" placeholder="Place Longitude">
+      <mat-error *ngIf="form.get('lng').invalid">Please enter Longitude.</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="accent" type="submit">Save City</button>
+  </form>
+</mat-card>

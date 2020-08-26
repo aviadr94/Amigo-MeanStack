@@ -1,0 +1,26 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<mat-accordion multi="true" *ngIf="cities.length > 0 && !isLoading">
+  <input matInput #searchCity (keyup)="onTextChangedCity()" type="text" placeholder="Search By City"/>
+  <input matInput #searchLat (keyup)="onTextChangedLat()" type="text" placeholder="Search By Latitude"/>
+  <input matInput #searchLng (keyup)="onTextChangedLng()" type="text" placeholder="Search By Longtitude"/>
+  <br>
+  <br>
+  <mat-expansion-panel *ngFor="let city of cities | cityFilter: city | latFilter: lat | lngFilter: lng">
+    <mat-expansion-panel-header>
+      {{ city.city }}
+    </mat-expansion-panel-header>
+    <p>{{ city.lat }}</p>
+    <p>{{ city.lng }}</p>
+    <mat-action-row *ngIf="userIsAuthenticated && userId === city.creator">
+      <a mat-button color="primary" [routerLink]="['/cityedit', city.id]">EDIT</a>
+      <button mat-button color="warn" (click)="onDelete(city.id)">DELETE</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+</mat-accordion>
+<mat-paginator [length]="totalCities" [pageSize]="citiesPerPage" [pageSizeOptions]="pageSizeOptions" (page)="onChangedPage($event)"
+  *ngIf="cities.length > 0"></mat-paginator>
+<p class="info-text mat-body-1" *ngIf="cities.length <= 0 && !isLoading">No Cities added yet!</p>
